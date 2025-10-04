@@ -30,7 +30,9 @@ npm install -g minify-font
 
 ## 作为 CLI 使用
 
-你可以通过 CLI 方便的集成到项目 scripts 中, 支持预定义字符集 (具体查看: 查看[top-used-chars](https://www.npmjs.com/package/top-used-chars))
+你可以通过 CLI 方便的集成到项目 scripts 中, 支持预定义字符集 (具体查看: [top-used-chars](https://www.npmjs.com/package/top-used-chars))
+
+![](https://img.alicdn.com/imgextra/i2/O1CN01ZJ9QfI1fK6D15dN66_!!6000000003987-1-tps-1300-414.gif)
 
 ```bash
 minify-font <input-font-path> [options]
