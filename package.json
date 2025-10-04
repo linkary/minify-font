@@ -1,21 +1,46 @@
 {
   "name": "minify-font",
   "version": "1.0.0",
-  "description": "",
+  "sideEffects": false,
+  "description": "A lightweight font subsetting and conversion tool | 轻量级字体裁剪和转换工具",
   "main": "src/index.mjs",
+  "bin": {
+    "minify-font": "./bin/minify-font.mjs"
+  },
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "keywords": [
+    "font",
+    "font-subset",
+    "font-subsetting",
+    "font-minify",
+    "font-conversion",
+    "font-optimization",
+    "woff",
+    "woff2",
+    "ttf",
+    "otf",
+    "web-font",
+    "chinese-font",
+    "字体裁剪",
+    "字体压缩",
+    "字体优化",
+    "字体转换"
+  ],
+  "author": "https://github.com/linkary",
+  "license": "MIT",
+  "type": "module",
   "devDependencies": {
     "vitest": "^3.2.4"
   },
   "dependencies": {
     "fonteditor-core": "^2.6.3",
-    "top-used-chars": "^2.3.0"
+    "top-used-chars": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linkary/minify-font.git"
   }
 }
