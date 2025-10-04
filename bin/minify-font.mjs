@@ -3,6 +3,8 @@
 import { minifyFont } from '../src/minify-font.mjs'
 import { extname, dirname } from 'node:path'
 import { mkdir } from 'node:fs/promises'
+import { fileURLToPath } from 'node:url'
+import { realpathSync } from 'node:fs'
 import { TOP_USED_500_CHARS, TOP_USED_2500_CHARS, COMMONLY_USED_CHARS } from 'top-used-chars'
 
 // Character collection mapping
@@ -273,7 +275,11 @@ async function runCLI() {
 // Export for testing
 export { runCLI }
 
-// Auto-run CLI when this file is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Auto-run CLI when executed directly
+// Resolve symlinks (important for global npm installs where argv[1] is a symlink)
+const __filename = fileURLToPath(import.meta.url)
+const executedPath = process.argv[1] ? realpathSync(process.argv[1]) : null
+
+if (executedPath === __filename) {
   runCLI()
 }
