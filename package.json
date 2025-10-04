@@ -1,15 +1,28 @@
 {
   "name": "minify-font",
   "version": "1.0.0",
-  "sideEffects": false,
   "description": "A lightweight font subsetting and conversion tool | 轻量级字体裁剪和转换工具",
-  "main": "src/index.mjs",
+  "type": "module",
+  "main": "./src/index.mjs",
   "bin": {
     "minify-font": "./bin/minify-font.mjs"
   },
+  "exports": {
+    ".": {
+      "import": "./src/index.mjs"
+    }
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
   "scripts": {
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepublishOnly": "npm test"
   },
   "keywords": [
     "font",
@@ -18,29 +31,41 @@
     "font-minify",
     "font-conversion",
     "font-optimization",
+    "font-compress",
     "woff",
     "woff2",
     "ttf",
     "otf",
     "web-font",
     "chinese-font",
+    "cjk-font",
+    "fonteditor",
     "字体裁剪",
     "字体压缩",
     "字体优化",
     "字体转换"
   ],
-  "author": "https://github.com/linkary",
+  "author": {
+    "name": "linkary",
+    "url": "https://github.com/linkary"
+  },
   "license": "MIT",
-  "type": "module",
-  "devDependencies": {
-    "vitest": "^3.2.4"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linkary/minify-font.git"
+  },
+  "bugs": {
+    "url": "https://github.com/linkary/minify-font/issues"
+  },
+  "homepage": "https://github.com/linkary/minify-font#readme",
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "fonteditor-core": "^2.6.3",
     "top-used-chars": "^3.0.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/linkary/minify-font.git"
+  "devDependencies": {
+    "vitest": "^3.2.4"
   }
 }
