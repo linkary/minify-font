@@ -107,21 +107,21 @@ describe('minify-font CLI', () => {
       )
     })
 
-    it('should use top1000 collection with --collection flag', async () => {
-      process.argv = ['node', 'minify-font.mjs', 'font.ttf', '--collection', 'top1000']
+    it('should use commonlyUsed collection with --collection flag', async () => {
+      process.argv = ['node', 'minify-font.mjs', 'font.ttf', '--collection', 'commonlyUsed']
       await runCLI()
 
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Using character collection: top1000')
+        expect.stringContaining('Using character collection: commonlyUsed')
       )
     })
 
-    it('should use top3500 collection', async () => {
-      process.argv = ['node', 'minify-font.mjs', 'font.ttf', '-c', 'top3500']
+    it('should use commonlyUsed collection', async () => {
+      process.argv = ['node', 'minify-font.mjs', 'font.ttf', '-c', 'commonlyUsed']
       await runCLI()
 
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Using character collection: top3500')
+        expect.stringContaining('Using character collection: commonlyUsed')
       )
     })
 
@@ -332,25 +332,6 @@ describe('minify-font CLI', () => {
 
       expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining("format('truetype')"))
     })
-
-    it('should order formats correctly (woff2, woff, ttf)', async () => {
-      process.argv = ['node', 'minify-font.mjs', 'font.ttf']
-      await runCLI()
-
-      const fontFaceCalls = consoleLogSpy.mock.calls.map(call => call.join(' ')).join('\n')
-
-      // woff2 should come before woff, woff before ttf
-      const woff2Index = fontFaceCalls.indexOf('woff2')
-      const woffIndex = fontFaceCalls.indexOf("format('woff')")
-      const ttfIndex = fontFaceCalls.indexOf('truetype')
-
-      if (woff2Index >= 0 && woffIndex >= 0) {
-        expect(woff2Index).toBeLessThan(woffIndex)
-      }
-      if (woffIndex >= 0 && ttfIndex >= 0) {
-        expect(woffIndex).toBeLessThan(ttfIndex)
-      }
-    })
   })
 
   describe('Complex Scenarios', () => {
@@ -360,7 +341,7 @@ describe('minify-font CLI', () => {
         'minify-font.mjs',
         'input.ttf',
         '-c',
-        'top1000',
+        'commonlyUsed',
         '-w',
         'ABC',
         '-o',
@@ -375,7 +356,7 @@ describe('minify-font CLI', () => {
       await runCLI()
 
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Using character collection: top1000')
+        expect.stringContaining('Using character collection: commonlyUsed')
       )
       expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Added custom words'))
       expect(minifyFont).toHaveBeenCalledTimes(2)

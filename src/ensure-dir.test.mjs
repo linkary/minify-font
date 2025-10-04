@@ -95,5 +95,3 @@ describe('ensureDir', () => {
     expect(fs.mkdirSync).toHaveBeenCalledWith('/test/path/', { recursive: true })
   })
 })
-
-

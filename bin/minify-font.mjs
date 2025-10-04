@@ -3,19 +3,13 @@
 import { minifyFont } from '../src/minify-font.mjs'
 import { extname, dirname } from 'node:path'
 import { mkdir } from 'node:fs/promises'
-import {
-  TOP_USED_500_CHARS,
-  TOP_USED_1000_CHARS,
-  TOP_USED_2500_CHARS,
-  TOP_USED_3500_CHARS,
-} from 'top-used-chars'
+import { TOP_USED_500_CHARS, TOP_USED_2500_CHARS, COMMONLY_USED_CHARS } from 'top-used-chars'
 
 // Character collection mapping
 const COLLECTIONS = {
   top500: TOP_USED_500_CHARS,
-  top1000: TOP_USED_1000_CHARS,
   top2500: TOP_USED_2500_CHARS,
-  top3500: TOP_USED_3500_CHARS,
+  commonlyUsed: COMMONLY_USED_CHARS,
 }
 
 async function runCLI() {
@@ -26,7 +20,7 @@ async function runCLI() {
     console.log('')
     console.log('Options:')
     console.log('  -c, --collection <name>   Use predefined character collection:')
-    console.log('                            top500, top1000, top2500 (default), top3500')
+    console.log('                            top500, top2500 (default), commonlyUsed')
     console.log('  -w, --words <words>       Custom characters to include (can combine with -c)')
     console.log(
       '  -o, --output <output>     Output file or directory (default: same as input with .min suffix)'
@@ -40,7 +34,7 @@ async function runCLI() {
     console.log('Examples:')
     console.log('  minify-font font.ttf')
     console.log('  minify-font font.ttf -c top500')
-    console.log('  minify-font font.ttf -c top3500 -o output/')
+    console.log('  minify-font font.ttf -c commonlyUsed -o output/')
     console.log('  minify-font font.ttf -w "Hello World"')
     console.log('  minify-font font.ttf -c top1000 -w "额外字符" -o minified.woff2')
     console.log('  minify-font font.ttf -f woff2')
@@ -67,7 +61,7 @@ async function runCLI() {
         console.log('')
         console.log('Options:')
         console.log('  -c, --collection <name>   Use predefined character collection:')
-        console.log('                            top500, top1000, top2500 (default), top3500')
+        console.log('                            top500, top2500 (default), commonlyUsed')
         console.log('  -w, --words <words>       Custom characters to include (can combine with -c)')
         console.log(
           '  -o, --output <output>     Output file or directory (default: same as input with .min suffix)'
@@ -83,7 +77,7 @@ async function runCLI() {
         console.log('Examples:')
         console.log('  minify-font font.ttf')
         console.log('  minify-font font.ttf -c top500')
-        console.log('  minify-font font.ttf -c top3500 -o output/')
+        console.log('  minify-font font.ttf -c commonlyUsed -o output/')
         console.log('  minify-font font.ttf -w "Hello World"')
         console.log('  minify-font font.ttf -c top1000 -w "额外字符" -o minified.woff2')
         console.log('  minify-font font.ttf -f woff2')
@@ -160,6 +154,8 @@ async function runCLI() {
   }
 
   try {
+    console.log(`\nProcessing: ${input}`)
+
     // Get characters to include
     let text = COLLECTIONS[collection] || TOP_USED_2500_CHARS
 
@@ -217,11 +213,13 @@ async function runCLI() {
     }
 
     // Generate all formats
+    console.log(`\nGenerating ${outputFormats.length} format(s): ${outputFormats.join(', ')}`)
     const generatedFiles = []
     for (let i = 0; i < outputFormats.length; i++) {
       const format = outputFormats[i]
       const outputPath = outputPaths[i]
 
+      process.stdout.write(`  ${format}... `)
       await minifyFont({
         input,
         output: outputPath,
@@ -229,12 +227,13 @@ async function runCLI() {
         inputOptions,
         outputOptions,
       })
+      console.log('✓')
 
       generatedFiles.push(outputPath)
     }
 
     // Output all generated file paths
-    console.log('Generated:')
+    console.log('\n✓ Generated successfully:')
     generatedFiles.forEach(file => console.log(`  ${file}`))
 
     // Generate @font-face CSS with correct syntax
@@ -252,8 +251,8 @@ async function runCLI() {
       return (order[extA] || 3) - (order[extB] || 3)
     })
 
-    console.log(`
-@font-face {
+    console.log(`\nCSS @font-face:`)
+    console.log(`@font-face {
   font-family: '${inputFileName}';
   src: ${sortedFiles
     .map(file => {
@@ -263,15 +262,21 @@ async function runCLI() {
     .join(',\n       ')};
 }`)
   } catch (error) {
-    console.error('Error minifying font:', error.message)
+    console.error('\n✗ Error minifying font:', error.message)
+    if (error.stack) {
+      console.error(error.stack)
+    }
     process.exit(1)
   }
 }
 
 // Export for testing
 export { runCLI }
+console.log('runCLI', runCLI)
+console.log(process.argv[1], import.meta.url)
 
 // Auto-run CLI when this file is executed directly
 if (import.meta.url === `file://${process.argv[1]}`) {
+  console.log('runCLI', runCLI, 'inside')
   runCLI()
 }
