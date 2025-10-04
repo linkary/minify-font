@@ -1,8 +1,8 @@
 import { Font, woff2 } from 'fonteditor-core'
 import { existsSync } from 'node:fs'
-import { extname } from 'node:path'
+import { extname, dirname } from 'node:path'
 import { readFile, writeFile } from 'node:fs/promises'
-
+import { ensureDir } from './ensure-dir.mjs'
 const VALID_FONT_TYPES = ['ttf', 'otf', 'eot', 'svg', 'woff', 'woff2']
 
 /**
@@ -83,5 +83,12 @@ export async function minifyFont({ input, output, text, inputOptions, outputOpti
     ...outputOptions,
     type: outputType,
   })
+
+  // Ensure output directory exists
+  const outputDirPath = dirname(output)
+  if (outputDirPath) {
+    ensureDir(outputDirPath)
+  }
+
   await writeFile(output, outputBuffer)
 }

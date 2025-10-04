@@ -272,11 +272,8 @@ async function runCLI() {
 
 // Export for testing
 export { runCLI }
-console.log('runCLI', runCLI)
-console.log(process.argv[1], import.meta.url)
 
 // Auto-run CLI when this file is executed directly
 if (import.meta.url === `file://${process.argv[1]}`) {
-  console.log('runCLI', runCLI, 'inside')
   runCLI()
 }

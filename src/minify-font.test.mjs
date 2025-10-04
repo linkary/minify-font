@@ -11,18 +11,27 @@ vi.mock('fonteditor-core', () => ({
   },
 }))
 
-vi.mock('node:fs', () => ({
-  existsSync: vi.fn(),
-}))
+vi.mock('node:fs', async importOriginal => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    existsSync: vi.fn(),
+  }
+})
 
 vi.mock('node:fs/promises', () => ({
   readFile: vi.fn(),
   writeFile: vi.fn(),
 }))
 
+vi.mock('./ensure-dir.mjs', () => ({
+  ensureDir: vi.fn(),
+}))
+
 import { Font, woff2 } from 'fonteditor-core'
 import { existsSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
+import { ensureDir } from './ensure-dir.mjs'
 
 describe('minifyFont', () => {
   let mockFontInstance
@@ -442,6 +451,7 @@ describe('minifyFont', () => {
 
       expect(readFile).toHaveBeenCalledWith('/absolute/path/font.ttf')
       expect(writeFile).toHaveBeenCalledWith('/absolute/path/output.ttf', expect.any(Buffer))
+      expect(ensureDir).toHaveBeenCalledWith('/absolute/path')
     })
 
     it('should handle relative paths', async () => {

@@ -1,6 +1,5 @@
 import path from 'node:path'
 import { minifyFont } from './minify-font.mjs'
-import { ensureDir } from './ensure-dir.mjs'
 
 /**
  * 一次性创建多种 Web 字体格式（ttf, woff2, woff 等）
@@ -82,7 +81,6 @@ export async function createWebFonts({
 
   const basename = path.basename(input, path.extname(input))
   const targetDir = outputDir || path.resolve(path.dirname(input), './output')
-  ensureDir(targetDir)
 
   // Use Promise.allSettled for better error handling
   const results = await Promise.allSettled(
