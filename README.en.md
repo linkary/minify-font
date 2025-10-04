@@ -11,10 +11,9 @@ A lightweight font subsetting and conversion tool that supports multiple font fo
 - **Font Subsetting**: Keep only the characters you need, dramatically reducing file size
 - **Format Conversion**: Convert between TTF, OTF, WOFF, WOFF2, EOT, and SVG formats
 - **Batch Generation**: Generate multiple web font formats at once
-- **Unicode Support**: Perfect support for Chinese, Japanese, and other multilingual characters
 - **CLI Tool**: Easy integration into build processes
 - **Programmable**: JavaScript API for programmatic use
-- **Predefined Character Sets**: Built-in common Chinese character sets (500/1000/2500/3500)
+- **Predefined Character Sets**: Built-in common Chinese character sets
 
 ## Installation
 
