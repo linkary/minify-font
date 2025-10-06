@@ -1,2 +1,32 @@
+# Test files
 *.test.mjs
+*.test.js
+*.spec.mjs
+*.spec.js
+
+# Test directories
 /test
+/tests
+/__tests__
+
+# Development files
+/.vscode
+/.idea
+.prettierrc
+.eslintrc*
+vitest.config.*
+
+# CI/CD
+/.github
+.travis.yml
+.gitlab-ci.yml
+
+# Documentation sources
+/docs
+
+# Misc
+.DS_Store
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

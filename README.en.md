@@ -35,9 +35,7 @@ npm install -g minify-font
 
 ## CLI Usage
 
-You can easily integrate it into your project scripts with support for predefined character sets (see [top-used-chars](https://www.npmjs.com/package/top-used-chars))
-
-![](https://img.alicdn.com/imgextra/i2/O1CN01ZJ9QfI1fK6D15dN66_!!6000000003987-1-tps-1300-414.gif)
+You can easily integrate it into your project scripts with support for predefined character sets (see [top-used-chars](https://www.npmjs.com/package/top-used-chars))![](https://img.alicdn.com/imgextra/i2/O1CN01ZJ9QfI1fK6D15dN66_!!6000000003987-1-tps-1300-414.gif)
 
 ```bash
 minify-font <input-font-path> [options]
