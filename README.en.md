@@ -6,6 +6,8 @@ A Simple and Easy-to-Use Font Subsetting Tool
 
 A lightweight font subsetting and conversion tool that supports multiple font formats and can significantly reduce font file sizes.
 
+
+
 ## Features
 
 - **Font Subsetting**: Keep only the characters you need, dramatically reducing file size
@@ -14,6 +16,8 @@ A lightweight font subsetting and conversion tool that supports multiple font fo
 - **CLI Tool**: Easy integration into build processes
 - **Programmable**: JavaScript API for programmatic use
 - **Predefined Character Sets**: Built-in common Chinese character sets
+
+
 
 ## Installation
 
@@ -26,6 +30,8 @@ Install CLI tool globally:
 ```bash
 npm install -g minify-font
 ```
+
+
 
 ## CLI Usage
 
@@ -53,6 +59,8 @@ Examples:
   minify-font font.ttf -f woff2                     # Generate only woff2 format
   minify-font font.ttf -f ttf,woff -o dist/         # Generate multiple formats
 ```
+
+
 
 ## Module Usage
 
@@ -139,6 +147,8 @@ await minifyFont({
 })
 ```
 
+
+
 ### createWebFonts(options: CreateWebFontsOptions): Promise<CreateWebFontsResult>
 
 Generate ttf, woff2, and woff font files at once
@@ -184,6 +194,8 @@ result.fonts.forEach(font => {
   }
 })
 ```
+
+
 
 ## Advanced Options
 
@@ -275,6 +287,8 @@ outputOptions: {
 }
 ```
 
+
+
 ### Options Usage Recommendations
 
 | Scenario                     | hinting  | kerning  | compound2simple | File Size | Quality   |
@@ -297,6 +311,8 @@ await minifyFont({
 })
 ```
 
+
+
 ## Supported Font Formats
 
 | Format | Input | Output | Description                                    |
@@ -307,6 +323,8 @@ await minifyFont({
 | WOFF2  | ✅    | ✅     | Web Open Font Format 2.0 (Recommended for Web) |
 | EOT    | ✅    | ✅     | Embedded OpenType                              |
 | SVG    | ✅    | ✅     | SVG Font                                       |
+
+
 
 ## Use Cases
 
@@ -359,6 +377,8 @@ const result = await createWebFonts({
 })
 ```
 
+
+
 ## FAQ
 
 ### How to determine which characters to include?
@@ -398,6 +418,8 @@ Using in CSS:
   src: url('font.woff2') format('woff2'), url('font.woff') format('woff'), url('font.ttf') format('truetype');
 }
 ```
+
+
 
 ## Dependencies
 
