@@ -2,11 +2,14 @@
 
 [English](./README.en.md) | 简体中文
 
+[![CI](https://github.com/linkary/minify-font/workflows/CI/badge.svg)](https://github.com/linkary/minify-font/actions)
+[![npm version](https://img.shields.io/npm/v/minify-font.svg)](https://www.npmjs.com/package/minify-font)
+[![npm downloads](https://img.shields.io/npm/dm/minify-font.svg)](https://www.npmjs.com/package/minify-font)
+[![license](https://img.shields.io/npm/l/minify-font.svg)](https://github.com/linkary/minify-font/blob/main/LICENSE)
+
 简单易用的字体裁剪工具
 
 一个轻量级的字体裁剪和转换工具，支持多种字体格式，可以显著减小字体文件体积。
-
-
 
 ## 特性
 
@@ -16,8 +19,6 @@
 - **CLI 工具**: 方便集成到构建流程
 - **可编程**: 提供 JavaScript API 供程序调用
 - **预定义字符集**: 内置常用汉字字符集
-
-
 
 ## 安装
 
@@ -30,8 +31,6 @@ npm install minify-font
 ```bash
 npm install -g minify-font
 ```
-
-
 
 ## 作为 CLI 使用
 
@@ -58,8 +57,6 @@ minify-font <input-font-path> [options]
   minify-font font.ttf -f woff2                     # 仅生成 woff2 格式
   minify-font font.ttf -f ttf,woff -o dist/         # 生成多种格式
 ```
-
-
 
 ## 作为模块使用
 
@@ -194,8 +191,6 @@ result.fonts.forEach(font => {
 })
 ```
 
-
-
 ## 高级选项说明
 
 ### inputOptions (输入选项)
@@ -308,8 +303,6 @@ await minifyFont({
 })
 ```
 
-
-
 ## 支持的字体格式
 
 | 格式  | 输入 | 输出 | 说明                                    |
@@ -320,8 +313,6 @@ await minifyFont({
 | WOFF2 | ✅   | ✅   | Web Open Font Format 2.0 (推荐用于 Web) |
 | EOT   | ✅   | ✅   | Embedded OpenType                       |
 | SVG   | ✅   | ✅   | SVG Font                                |
-
-
 
 ## 使用场景
 
@@ -374,8 +365,6 @@ const result = await createWebFonts({
 })
 ```
 
-
-
 ## 常见问题
 
 ### 如何确定需要包含哪些字符？
@@ -399,8 +388,6 @@ const result = await createWebFonts({
    minify-font font.ttf -c top1000 -w "特殊字符©®™"
    ```
 
-
-
 ### 为什么需要多种字体格式？
 
 不同浏览器支持的字体格式不同，建议提供多种格式以确保兼容性：
@@ -417,8 +404,6 @@ const result = await createWebFonts({
   src: url('font.woff2') format('woff2'), url('font.woff') format('woff'), url('font.ttf') format('truetype');
 }
 ```
-
-
 
 ## 依赖
 
