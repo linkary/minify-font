@@ -41,20 +41,23 @@ minify-font <input-font-path> [options]
 
 Options:
   -c, --collection <name>   Use predefined character set:
-                            top500,  top2500 (default), commonlyUsed
-  -w, --words <words>       Custom characters (can be combined with -c)
+                            top500, top2500 (default), commonlyUsed
+  -w, --words <words>       Custom characters:
+                            - Use alone: only include these characters
+                            - Use with -c: append to collection
   -o, --output <output>     Output file or directory (default: input filename + .min suffix)
   -f, --formats <formats>   Output formats (comma-separated, default: ttf,woff,woff2)
   --input-options <json>    Input font options (JSON string)
   --output-options <json>   Output font options (JSON string)
 
 Examples:
-  minify-font font.ttf                              # Use default top2500 character set
-  minify-font font.ttf -c top500                    # Use 500 most common characters
-  minify-font font.ttf -c commonlyUsed -o output/   # Use commonly used characters
-  minify-font font.ttf -w "Hello World"             # Include only custom characters
+  minify-font font.ttf                              # Use default collection (top2500)
+  minify-font font.ttf -c top500                    # Use top500 collection (500 common chars)
+  minify-font font.ttf -w "Hello World"             # Only include "Hello World" (no collection)
+  minify-font font.ttf -c top500 -w "额外字符"       # Combine mode: top500 + "额外字符"
+  minify-font font.ttf -w "ABC" -o output/          # Specified words to output directory
   minify-font font.ttf -f woff2                     # Generate only woff2 format
-  minify-font font.ttf -f ttf,woff -o dist/         # Generate multiple formats
+  minify-font font.ttf -f ttf,woff -o dist/         # Generate multiple formats to directory
 ```
 
 ## Module Usage

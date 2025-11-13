@@ -23,7 +23,9 @@ async function runCLI() {
     console.log('Options:')
     console.log('  -c, --collection <name>   Use predefined character collection:')
     console.log('                            top500, top2500 (default), commonlyUsed')
-    console.log('  -w, --words <words>       Custom characters to include (can combine with -c)')
+    console.log('  -w, --words <words>       Custom characters:')
+    console.log('                            - Use alone: only include these characters')
+    console.log('                            - Use with -c: append to collection')
     console.log(
       '  -o, --output <output>     Output file or directory (default: same as input with .min suffix)'
     )
@@ -34,19 +36,20 @@ async function runCLI() {
     console.log('  -v, --version             Show version')
     console.log('')
     console.log('Examples:')
-    console.log('  minify-font font.ttf')
-    console.log('  minify-font font.ttf -c top500')
-    console.log('  minify-font font.ttf -c commonlyUsed -o output/')
-    console.log('  minify-font font.ttf -w "Hello World"')
-    console.log('  minify-font font.ttf -c top1000 -w "额外字符" -o minified.woff2')
-    console.log('  minify-font font.ttf -f woff2')
-    console.log('  minify-font font.ttf -f ttf,woff -o dist/')
+    console.log('  minify-font font.ttf                              # Use default collection (top2500)')
+    console.log('  minify-font font.ttf -c top500                    # Use top500 collection')
+    console.log('  minify-font font.ttf -w "Hello World"             # Only include "Hello World" (no collection)')
+    console.log('  minify-font font.ttf -c top500 -w "额外字符"       # Combine top500 + "额外字符"')
+    console.log('  minify-font font.ttf -w "ABC" -o output/          # Specified words to output directory')
+    console.log('  minify-font font.ttf -f woff2                     # Generate only woff2 format')
+    console.log('  minify-font font.ttf -f ttf,woff -o dist/         # Multiple formats to directory')
     process.exit(0)
   }
 
   let input = null
   let words = null
   let collection = 'top2500' // default collection
+  let collectionSpecified = false // track if -c was explicitly provided
   let output = null
   let formats = null
   let inputOptions = {}
@@ -64,7 +67,9 @@ async function runCLI() {
         console.log('Options:')
         console.log('  -c, --collection <name>   Use predefined character collection:')
         console.log('                            top500, top2500 (default), commonlyUsed')
-        console.log('  -w, --words <words>       Custom characters to include (can combine with -c)')
+        console.log('  -w, --words <words>       Custom characters:')
+        console.log('                            - Use alone: only include these characters')
+        console.log('                            - Use with -c: append to collection')
         console.log(
           '  -o, --output <output>     Output file or directory (default: same as input with .min suffix)'
         )
@@ -77,13 +82,13 @@ async function runCLI() {
         console.log('  -v, --version             Show version')
         console.log('')
         console.log('Examples:')
-        console.log('  minify-font font.ttf')
-        console.log('  minify-font font.ttf -c top500')
-        console.log('  minify-font font.ttf -c commonlyUsed -o output/')
-        console.log('  minify-font font.ttf -w "Hello World"')
-        console.log('  minify-font font.ttf -c top1000 -w "额外字符" -o minified.woff2')
-        console.log('  minify-font font.ttf -f woff2')
-        console.log('  minify-font font.ttf -f ttf,woff -o dist/')
+        console.log('  minify-font font.ttf                              # Use default collection (top2500)')
+        console.log('  minify-font font.ttf -c top500                    # Use top500 collection')
+        console.log('  minify-font font.ttf -w "Hello World"             # Only include "Hello World" (no collection)')
+        console.log('  minify-font font.ttf -c top500 -w "额外字符"       # Combine top500 + "额外字符"')
+        console.log('  minify-font font.ttf -w "ABC" -o output/          # Specified words to output directory')
+        console.log('  minify-font font.ttf -f woff2                     # Generate only woff2 format')
+        console.log('  minify-font font.ttf -f ttf,woff -o dist/         # Multiple formats to directory')
         process.exit(0)
 
       case '-v':
@@ -94,6 +99,7 @@ async function runCLI() {
       case '-c':
       case '--collection':
         collection = args[++i]
+        collectionSpecified = true
         if (!COLLECTIONS[collection]) {
           console.error(
             `Error: Invalid collection "${collection}". Available: ${Object.keys(COLLECTIONS).join(', ')}`
@@ -159,16 +165,25 @@ async function runCLI() {
     console.log(`\nProcessing: ${input}`)
 
     // Get characters to include
-    let text = COLLECTIONS[collection] || TOP_USED_2500_CHARS
+    let text
 
-    console.log(`Using character collection: ${collection} (${text.length} chars)`)
-
-    // If custom words provided, combine with collection
-    if (words) {
-      // Combine and deduplicate characters
-      const combinedChars = new Set([...text, ...words])
+    // Option 2 (Pure): Smart mode detection
+    // Note: Use 'words !== null' instead of 'words' to handle empty strings
+    if (words !== null && !collectionSpecified) {
+      // Specified mode: Only use words (no collection)
+      text = words
+      console.log(`Using specified words only: ${text.length} chars`)
+    } else if (words !== null && collectionSpecified) {
+      // Append mode: Combine collection + words
+      const collectionText = COLLECTIONS[collection] || TOP_USED_2500_CHARS
+      const combinedChars = new Set([...collectionText, ...words])
       text = Array.from(combinedChars).join('')
-      console.log(`Added custom words, total: ${text.length} unique chars`)
+      console.log(`Using collection "${collection}" (${collectionText.length} chars) + custom words`)
+      console.log(`Total: ${text.length} unique chars`)
+    } else {
+      // Collection only (or default)
+      text = COLLECTIONS[collection] || TOP_USED_2500_CHARS
+      console.log(`Using character collection: ${collection} (${text.length} chars)`)
     }
 
     // Determine formats to generate

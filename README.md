@@ -43,19 +43,23 @@ minify-font <input-font-path> [options]
 
 选项:
   -c, --collection <name>   使用预定义字符集:
-                            top500,  top2500 (默认), commonlyUsed
-  -w, --words <words>       自定义字符 (可与 -c 组合使用)
+                            top500, top2500 (默认), commonlyUsed
+  -w, --words <words>       自定义字符:
+                            - 单独使用: 仅包含指定字符
+                            - 配合 -c 使用: 追加到字符集
   -o, --output <output>     输出文件或目录 (默认: 输入文件名 + .min 后缀)
   -f, --formats <formats>   生成的格式 (逗号分隔, 默认: ttf,woff,woff2)
   --input-options <json>    输入字体选项 (JSON 字符串)
   --output-options <json>   输出字体选项 (JSON 字符串)
 
 示例:
-  minify-font font.ttf                              # 500个最常用字符 (含500个最常用汉字、英文大小写字符、常用中文标点、常用英文标点)
-  minify-font font.ttf -c top500                    # 2500个最常用字符 (含2500个最常用汉字、英文大小写字符、常用中文标点、常用英文标点)
-  minify-font font.ttf -w "Hello World"             # 中英文语境下常用的字符 (含3500个常用汉字、英文大小写字符、常用中文标点、常用英文标点)
+  minify-font font.ttf                              # 使用默认字符集 (top2500, 2500个最常用汉字)
+  minify-font font.ttf -c top500                    # 使用 top500 字符集 (500个最常用汉字)
+  minify-font font.ttf -w "Hello World"             # 仅包含 "Hello World" 字符 (不使用字符集)
+  minify-font font.ttf -c top500 -w "额外字符"       # 组合模式: top500 + "额外字符"
+  minify-font font.ttf -w "ABC" -o output/          # 指定字符输出到目录
   minify-font font.ttf -f woff2                     # 仅生成 woff2 格式
-  minify-font font.ttf -f ttf,woff -o dist/         # 生成多种格式
+  minify-font font.ttf -f ttf,woff -o dist/         # 生成多种格式到目录
 ```
 
 ## 作为模块使用

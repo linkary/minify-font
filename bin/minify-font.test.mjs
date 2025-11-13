@@ -139,7 +139,7 @@ describe('minify-font CLI', () => {
       process.argv = ['node', 'minify-font.mjs', 'font.ttf', '-w', 'Hello World']
       await runCLI()
 
-      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Added custom words'))
+      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Using specified words only'))
     })
 
     it('should combine collection with custom words', async () => {
@@ -147,9 +147,9 @@ describe('minify-font CLI', () => {
       await runCLI()
 
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Using character collection: top500')
+        expect.stringContaining('Using collection "top500"')
       )
-      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Added custom words'))
+      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('+ custom words'))
     })
   })
 
@@ -356,9 +356,9 @@ describe('minify-font CLI', () => {
       await runCLI()
 
       expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Using character collection: commonlyUsed')
+        expect.stringContaining('Using collection "commonlyUsed"')
       )
-      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('Added custom words'))
+      expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('+ custom words'))
       expect(minifyFont).toHaveBeenCalledTimes(2)
     })
 
