@@ -1,0 +1,5 @@
+*.min.ttf
+*.min.woff
+*.min.woff2
+test/output
+
