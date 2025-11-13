@@ -147,8 +147,6 @@ await minifyFont({
 })
 ```
 
-
-
 ### createWebFonts(options: CreateWebFontsOptions): Promise<CreateWebFontsResult>
 
 一次性创建 ttf, woff2, woff 字体文件

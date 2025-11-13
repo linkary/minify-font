@@ -35,7 +35,7 @@ describe('CLI Character Mode Tests', () => {
         { encoding: 'utf8' }
       )
 
-      expect(output).toContain('Using specified words only: 3 chars')
+      expect(output).toContain('Using specified words only: 3 unique chars')
       expect(existsSync(outputPath)).toBe(true)
     })
 
@@ -47,7 +47,7 @@ describe('CLI Character Mode Tests', () => {
         { encoding: 'utf8' }
       )
 
-      expect(output).toContain('Using specified words only: 4 chars')
+      expect(output).toContain('Using specified words only: 4 unique chars')
       expect(existsSync(outputPath)).toBe(true)
     })
 
@@ -183,7 +183,7 @@ describe('CLI Character Mode Tests', () => {
         { encoding: 'utf8' }
       )
 
-      expect(output).toContain('Using specified words only: 0 chars')
+      expect(output).toContain('Using specified words only: 0 unique chars')
       expect(existsSync(outputPath)).toBe(true)
     })
 
@@ -196,6 +196,33 @@ describe('CLI Character Mode Tests', () => {
       )
 
       expect(output).toContain('Using specified words only:')
+      expect(existsSync(outputPath)).toBe(true)
+    })
+
+    it('should deduplicate characters in specified mode', () => {
+      const outputPath = resolve(outputDir, 'deduped.ttf')
+
+      const output = execSync(
+        `node ${resolve(__dirname, 'minify-font.mjs')} "${testFontPath}" -w "AAABBBCCC" -f ttf -o "${outputPath}"`,
+        { encoding: 'utf8' }
+      )
+
+      // "AAABBBCCC" has 9 characters but only 3 unique (A, B, C)
+      expect(output).toContain('Using specified words only: 3 unique chars')
+      expect(existsSync(outputPath)).toBe(true)
+    })
+
+    it('should deduplicate characters when combining with collection', () => {
+      const outputPath = resolve(outputDir, 'deduped-combo.ttf')
+
+      const output = execSync(
+        `node ${resolve(__dirname, 'minify-font.mjs')} "${testFontPath}" -c top500 -w "AAA一一一" -f ttf -o "${outputPath}"`,
+        { encoding: 'utf8' }
+      )
+
+      // Should show collection + custom words with deduplication
+      expect(output).toContain('+ custom words')
+      expect(output).toContain('Total:')
       expect(existsSync(outputPath)).toBe(true)
     })
   })
