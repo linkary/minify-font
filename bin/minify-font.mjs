@@ -1,23 +1,11 @@
 #!/usr/bin/env node
 
 import { minifyFont } from '../src/minify-font.mjs'
-import { extname, dirname, join } from 'node:path'
+import { extname, dirname } from 'node:path'
 import { mkdir } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import { realpathSync, readFileSync } from 'node:fs'
+import { realpathSync } from 'node:fs'
 import { TOP_USED_500_CHARS, TOP_USED_2500_CHARS, COMMONLY_USED_CHARS } from 'top-used-chars'
-
-// Get version from package.json with error handling
-function getVersion() {
-  try {
-    const __dirname = dirname(fileURLToPath(import.meta.url))
-    const pkgPath = join(__dirname, '..', 'package.json')
-    const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
-    return pkg.version
-  } catch {
-    return '2.1.0' // fallback version
-  }
-}
 
 // Character collection mapping
 const COLLECTIONS = {
@@ -121,7 +109,7 @@ function showHelp() {
  * Display version information
  */
 function showVersion() {
-  console.log(`minify-font version ${getVersion()}`)
+  console.log('minify-font version 2.1.0')
 }
 
 /**
