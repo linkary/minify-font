@@ -6,6 +6,7 @@ import { mkdir } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { realpathSync } from 'node:fs'
 import { TOP_USED_500_CHARS, TOP_USED_2500_CHARS, COMMONLY_USED_CHARS } from 'top-used-chars'
+import pkg from '../package.json' with { type: 'json' }
 
 // Character collection mapping
 const COLLECTIONS = {
@@ -109,7 +110,7 @@ function showHelp() {
  * Display version information
  */
 function showVersion() {
-  console.log('minify-font version 1.0.0')
+  console.log(`minify-font version ${pkg.version}`)
 }
 
 /**
