@@ -1,12 +1,17 @@
 #!/usr/bin/env node
 
 import { minifyFont } from '../src/minify-font.mjs'
-import { extname, dirname } from 'node:path'
+import { extname, dirname, join } from 'node:path'
 import { mkdir } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import { realpathSync } from 'node:fs'
+import { realpathSync, readFileSync } from 'node:fs'
 import { TOP_USED_500_CHARS, TOP_USED_2500_CHARS, COMMONLY_USED_CHARS } from 'top-used-chars'
-import pkg from '../package.json' with { type: 'json' }
+
+// Read package.json for version info
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+const packageJson = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf-8'))
+const version = packageJson.version
 
 // Character collection mapping
 const COLLECTIONS = {
@@ -110,7 +115,7 @@ function showHelp() {
  * Display version information
  */
 function showVersion() {
-  console.log(`minify-font version ${pkg.version}`)
+  console.log(`minify-font version ${version}`)
 }
 
 /**
@@ -406,7 +411,6 @@ export { runCLI }
 
 // Auto-run CLI when executed directly
 // Resolve symlinks (important for global npm installs where argv[1] is a symlink)
-const __filename = fileURLToPath(import.meta.url)
 const executedPath = process.argv[1] ? realpathSync(process.argv[1]) : null
 
 if (executedPath === __filename) {
