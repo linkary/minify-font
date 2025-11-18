@@ -4,14 +4,18 @@ import { minifyFont } from '../src/minify-font.mjs'
 import { extname, dirname, join } from 'node:path'
 import { mkdir } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import { realpathSync, readFileSync } from 'node:fs'
+import { realpathSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import { TOP_USED_500_CHARS, TOP_USED_2500_CHARS, COMMONLY_USED_CHARS } from 'top-used-chars'
 
-// Read package.json for version info
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-const packageJson = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf-8'))
-const version = packageJson.version
+// Import package.json using createRequire (compatible way for ES modules)
+const require = createRequire(import.meta.url)
+let version = '2.1.0' // fallback version
+try {
+  version = require('../package.json').version
+} catch (error) {
+  // Use fallback version if package.json can't be loaded
+}
 
 // Character collection mapping
 const COLLECTIONS = {
@@ -413,6 +417,6 @@ export { runCLI }
 // Resolve symlinks (important for global npm installs where argv[1] is a symlink)
 const executedPath = process.argv[1] ? realpathSync(process.argv[1]) : null
 
-if (executedPath === __filename) {
+if (executedPath === fileURLToPath(import.meta.url)) {
   runCLI()
 }
