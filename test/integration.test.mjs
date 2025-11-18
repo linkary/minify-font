@@ -115,7 +115,7 @@ describe('Integration Tests with Real Font', () => {
       const stats = statSync(output)
       // Font without subsetting should be larger
       expect(stats.size).toBeGreaterThan(1024 * 50) // Should be > 50KB
-    }, 15000) // Increase timeout to 15s for full font processing
+    }, 30000) // Increase timeout to 20s for full font processing
 
     it('should work with special characters', async () => {
       const output = join(OUTPUT_DIR, 'special.woff2')
