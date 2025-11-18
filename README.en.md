@@ -11,6 +11,8 @@ A Simple and Easy-to-Use Font Subsetting Tool
 
 A lightweight font subsetting and conversion tool that supports multiple font formats and can significantly reduce font file sizes.
 
+⚠️ Warning: Not fully tested on Windows computers.
+
 ## Features
 
 - **Font Subsetting**: Keep only the characters you need, dramatically reducing file size
