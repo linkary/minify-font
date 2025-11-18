@@ -1,6 +1,6 @@
 {
   "name": "minify-font",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A lightweight font subsetting and conversion tool | 轻量级字体裁剪和转换工具",
   "type": "module",
   "main": "./src/index.mjs",
