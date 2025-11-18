@@ -115,7 +115,7 @@ describe('Integration Tests with Real Font', () => {
       const stats = statSync(output)
       // Font without subsetting should be larger
       expect(stats.size).toBeGreaterThan(1024 * 50) // Should be > 50KB
-    }, 30000) // Increase timeout to 20s for full font processing
+    })
 
     it('should work with special characters', async () => {
       const output = join(OUTPUT_DIR, 'special.woff2')
@@ -248,7 +248,7 @@ describe('Integration Tests with Real Font', () => {
       // Subsetted should be significantly smaller
       expect(subsetSize).toBeLessThan(fullSize)
       expect(subsetSize).toBeLessThan(fullSize * 0.1) // At least 90% smaller
-    }, 20000) // Increase timeout to 20s for processing both full and subset fonts
+    })
 
     it('should show WOFF2 is smaller than TTF', async () => {
       const ttfOutput = join(OUTPUT_DIR, 'test.ttf')
